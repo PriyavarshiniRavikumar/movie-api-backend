@@ -1,0 +1,606 @@
+{
+	"info": {
+		"_postman_id": "4262f903-3361-4eee-86f7-f66abcb86439",
+		"name": "movie-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29296444",
+		"_collection_link": "https://bold-sunset-815859.postman.co/workspace/sample~b58f5d77-de74-43b0-b5a3-808b96c301a1/collection/29296444-4262f903-3361-4eee-86f7-f66abcb86439?action=share&source=collection_link&creator=29296444"
+	},
+	"item": [
+		{
+			"name": "add user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\":\"Priya\",\n        \"last_name\": \"Varshini\",\n        \"email\": \"Priya@gmail.com\",\n        \"user_name\": \"Priya@12345\",\n        \"user_password\": \"Priya@12345\",\n        \"phone_no\": \"7530124689\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3456/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user login to generate token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"access_token\", res.created_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"priyavarshini@mindwaveventures.com\",\n     \"user_password\": \"priya@12345\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3456/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view account using token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3456/users/userInfo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"users",
+						"userInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user using token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcl9pZCI6IjgwOTg5NzU5LTI2MzQtNDY3NS1hNTY5LTAzOWIzMWY5NzYzMyIsInVzZXJfbmFtZSI6IlByaXlhQDEyMzQ1NiIsImlhdCI6MTcwMjQ2NjU3OSwiZXhwIjoxNzAyNDcwMTc5fQ.TTxSov0DnWxqjfNmUEFz-qcVu_X5UTwppb3Wp865mQY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"user_name\":\"varsha@gmail.com\",\n      \"user_password\":\"varsha@12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3456/users/user/updateUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"users",
+						"user",
+						"updateUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add Movie",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "movie_name",
+							"value": "Leo",
+							"type": "text"
+						},
+						{
+							"key": "movie_desc",
+							"value": "A Hide and Seek thriller to find the Gangster Leo Das",
+							"type": "text"
+						},
+						{
+							"key": "release_year",
+							"value": "2023",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/trainee/Pictures/leo.webp"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3456/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add Rating",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcl9pZCI6IjgwOTg5NzU5LTI2MzQtNDY3NS1hNTY5LTAzOWIzMWY5NzYzMyIsInVzZXJfbmFtZSI6InZhcnNoYUBnbWFpbC5jb20iLCJpYXQiOjE3MDMwNDk4MTMsImV4cCI6MTcwMzA1MzQxM30.L99HvscmwRJ3KEfkQEwOim4VLMuqo5b7lnuPkH0KHGo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n  \"rating_value\"  : 4\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3456/movies/d3374dfc-fd41-4319-93f3-d4263be56da8/rating",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"movies",
+						"d3374dfc-fd41-4319-93f3-d4263be56da8",
+						"rating"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list all movies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3456/movies/list?sortMovie=DESC",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"movies",
+						"list"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "v",
+							"disabled": true
+						},
+						{
+							"key": "sortMovie",
+							"value": "DESC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch one movie",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3456/movies/list/d3374dfc-fd41-4319-93f3-d4263be56da8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"movies",
+						"list",
+						"d3374dfc-fd41-4319-93f3-d4263be56da8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update movie",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \n          \"movie_desc\": \"The great war that marks the end of MCU phase 3\"\n}\n         ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3456/movies/update/6f0d79b1-d0e6-426f-8d07-e2ce650b03a5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"movies",
+						"update",
+						"6f0d79b1-d0e6-426f-8d07-e2ce650b03a5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get movie to update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3456/movies/update/6f0d79b1-d0e6-426f-8d07-e2ce650b03a5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"movies",
+						"update",
+						"6f0d79b1-d0e6-426f-8d07-e2ce650b03a5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"old_password\":\"varsha@1234\",\n    \"new_password\":\"varsha@12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3456/users/user/updatePassword",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"users",
+						"user",
+						"updatePassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "generate otp and send otp in mail",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"email\":\"priyavarshini@mindwaveventures.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3456/users/send-otp-mail",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"users",
+						"send-otp-mail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "otp validation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"otp\":5977\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3456/users/otp-validation/480b71d8-e475-41f2-afea-d88834aa8165",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"users",
+						"otp-validation",
+						"480b71d8-e475-41f2-afea-d88834aa8165"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change password on forgot password",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"new_password\": \"varsha@12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3456/users/forgot-passwordChange/80989759-2634-4675-a569-039b31f97633",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"users",
+						"forgot-passwordChange",
+						"80989759-2634-4675-a569-039b31f97633"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete movie",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3456/movies/delete/7de13451-6843-4359-b393-cac4893ff7fc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"movies",
+						"delete",
+						"7de13451-6843-4359-b393-cac4893ff7fc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uploads",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/trainee/Pictures/Screenshots/mv colors imp.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3456/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3456",
+					"path": [
+						"upload"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
